@@ -17,6 +17,7 @@
 	<h1> 주석 </h1>
 <!-- 	<h2> html 주석 </h2> -->
 	<h2> html 주석 ctrl + shift + c </h2>
+	<h2> html 주석 ctrl + shift + /</h2>
 	
 	<% 
 	// 자바 한줄 주석 
@@ -26,6 +27,7 @@
 	%>
 	
 	<%-- jsp 주석 --%>
+	
 
 </body>
 </html>
