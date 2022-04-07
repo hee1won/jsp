@@ -48,7 +48,7 @@
  		if(nameParam != null){
  			
  	%>
- 		name = <%= nameParam %>
+ 		name = <%= nameParam[0] %>
 	<%
  		}
  	%>

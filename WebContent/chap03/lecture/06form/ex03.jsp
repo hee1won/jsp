@@ -49,7 +49,18 @@
 <input type="submit" />
 </form>
 
+<h1>action 속성 값 생략 : 현재 페이지</h1>
 
+<form action="">
+<input type="text" name = "age" />
+<input type="submit" />
+</form>
+
+<br />
+<br />
+<br />
+<br />
+<br />
 
 </body>
 </html>

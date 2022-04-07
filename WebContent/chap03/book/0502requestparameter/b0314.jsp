@@ -8,7 +8,7 @@
 <title>폼 생성</title>
 </head>
 <body>
-	<form action="/jsp/chap03/book/0502requestparameter/b0315.jsp">
+	<form action="/jsp/chap03/book/0502requestparameter/b0315.jsp" method="post">
 	이름 : <input type="text" name="name" size="10" />	<br />
 	주소 : <input type="text" name="address" size="30" />		<br />
 	좋아하는 동물 :
