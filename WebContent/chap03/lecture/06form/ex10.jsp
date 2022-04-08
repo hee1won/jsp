@@ -9,5 +9,20 @@
 </head>
 <body>
 
+	<!-- select option -->
+	<form action="ex11.jsp">
+	<input type="text" name = "age" /><br />
+	
+	<select name="movie" id="">
+	<option value="avengers">어벤져스</option>
+	<option value="knight">문나이트</option>
+	<option value="doctor">닥터스트레인지</option>
+	</select>
+	
+	<br />
+	
+	<input type="submit" value = "전송"/>
+	</form>
+
 </body>
 </html>
