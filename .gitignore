@@ -3,3 +3,4 @@
 .classpath
 .project
 WebContent/META-INF/MANIFEST.MF
+*.jar
