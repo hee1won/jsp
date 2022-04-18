@@ -1,4 +1,4 @@
-<%-- <%@ tag language="java" pageEncoding="UTF-8"%>
+<%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ tag body-content = "scriptless" %>
 <%@ attribute name = "length" type = "java.lang.Integer" %>
@@ -12,12 +12,12 @@
 		if(trim != null && trim.equals("true")){
 			content = content.trim();
 		}
-		content = content.replaceAll("<(/)?([a-zA-Z]*(//s[a-zA-Z]*=[^>]*)?>", "");
+		content = content.replaceAll("<(/)?([a-zA-Z]*)(//s[a-zA-Z]*=[^>]*)?>", "");
 		
-		if(length != null && length.intValue() > O && content.length() > length.intValue()){
-			content = content.substring(O,length.intValue());
+		if(length != null && length.intValue() > 0 && content.length() > length.intValue()){
+			content = content.substring(0,length.intValue());
 			if(trail != null){
 				content = content + trail;
 			}
 		}
-	%> --%>
+	%>
