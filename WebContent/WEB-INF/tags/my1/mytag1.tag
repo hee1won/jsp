@@ -1,5 +1,6 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<div>
-	<p>my tag contents....</p>
-</div>
+	<div>
+		<p>my tag contents....</p>
+	</div>
