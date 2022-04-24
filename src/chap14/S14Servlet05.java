@@ -13,18 +13,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import chap14.javaBeans.Customer;
 
 /**
- * Servlet implementation class S14Servlet03
+ * Servlet implementation class S14Servlet05
  */
-@WebServlet("/S14Servlet03")
-public class S14Servlet03 extends HttpServlet {
+@WebServlet("/S14Servlet05")
+public class S14Servlet05 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public S14Servlet03() {
+    public S14Servlet05() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,35 +35,41 @@ public class S14Servlet03 extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String sql = "SELECT City, CustomerName, Country FROM Customers WHERE CustomerID = 1";
+		String sql = "SELECT CustomerName, Country, City, PostalCode FROM Customers WHERE CustomerID = 3";
 		
 		ServletContext application = getServletContext();
 		DataSource ds = (DataSource) application.getAttribute("dbpool");
 		
-		try(Connection con = ds.getConnection();
-				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery(sql)){
-			
+		try(
+			Connection con = ds.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+				){
+			// 조회결과 정제...
 			if(rs.next()) {
-				String name = rs.getString(2);
-				String country = rs.getString(3);
-				String city = rs.getNString(1);
+				Customer customer = new Customer();
 				
-//				System.out.println(name);
-//				System.out.println(country);
+				String name = rs.getString("CustomerName");
+				String country = rs.getString("Country");
+				String city = rs.getString("City");
+				String postCode = rs.getString("PostalCode");
 				
-				request.setAttribute("name", name);
-				request.setAttribute("country", country);
-				request.setAttribute("city", city);
-			}
-			
+				customer.setName(name);
+				customer.setCountry(country);
+				customer.setCity(city);
+				customer.setPostCode(postCode);
+				
+				request.setAttribute("customer", customer);
+		}
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		String path = "/WEB-INF/view/chap14/ex02.jsp";
-		request.getRequestDispatcher(path).forward(request, response);
+
 		
+		String path = "/WEB-INF/view/chap14/ex03.jsp";
+		request.getRequestDispatcher(path).forward(request, response);
 	}
 
 	/**

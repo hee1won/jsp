@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -13,18 +15,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import chap14.javaBeans.Customer;
+import chap14.javaBeans.Employee;
 
 /**
- * Servlet implementation class S14Servlet03
+ * Servlet implementation class S14Servlet08
  */
-@WebServlet("/S14Servlet03")
-public class S14Servlet03 extends HttpServlet {
+@WebServlet("/S14Servlet08")
+public class S14Servlet08 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public S14Servlet03() {
+    public S14Servlet08() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,36 +37,37 @@ public class S14Servlet03 extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String sql = "SELECT City, CustomerName, Country FROM Customers WHERE CustomerID = 1";
-		
+		String sql = "SELECT FirstName, LastName, BirthDate FROM Employees";
+		List<Employee> list = new ArrayList<>();
 		ServletContext application = getServletContext();
 		DataSource ds = (DataSource) application.getAttribute("dbpool");
 		
-		try(Connection con = ds.getConnection();
+		try (Connection con = ds.getConnection();
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery(sql)){
+				ResultSet rs = stmt.executeQuery(sql)) {
 			
-			if(rs.next()) {
-				String name = rs.getString(2);
-				String country = rs.getString(3);
-				String city = rs.getNString(1);
+			while (rs.next()) {
+				Employee employee = new Employee();
 				
-//				System.out.println(name);
-//				System.out.println(country);
+				String firstname = (rs.getString(1));
+				String lastname = (rs.getString(2));
+				String birthdate = (rs.getString(3));
 				
-				request.setAttribute("name", name);
-				request.setAttribute("country", country);
-				request.setAttribute("city", city);
+				employee.setFirstName(firstname);
+				employee.setLastName(lastname);
+				employee.setBirthDate(birthdate);
+				
+				list.add(employee);
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		String path = "/WEB-INF/view/chap14/ex02.jsp";
-		request.getRequestDispatcher(path).forward(request, response);
+		request.setAttribute("employees", list);
 		
+		
+		String path = "/WEB-INF/view/chap14/ex06.jsp";
+		request.getRequestDispatcher(path).forward(request, response);
 	}
 
 	/**

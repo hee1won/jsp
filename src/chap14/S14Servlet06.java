@@ -13,18 +13,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import chap14.javaBeans.Customer;
+import chap14.javaBeans.Employee;
 
 /**
- * Servlet implementation class S14Servlet03
+ * Servlet implementation class S14Servlet06
  */
-@WebServlet("/S14Servlet03")
-public class S14Servlet03 extends HttpServlet {
+@WebServlet("/S14Servlet06")
+public class S14Servlet06 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public S14Servlet03() {
+    public S14Servlet06() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,33 +36,41 @@ public class S14Servlet03 extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String sql = "SELECT City, CustomerName, Country FROM Customers WHERE CustomerID = 1";
+		String sql = "SELECT FirstName, LastName, BirthDate FROM Employees WHERE EmployeeID = 1";
 		
 		ServletContext application = getServletContext();
 		DataSource ds = (DataSource) application.getAttribute("dbpool");
 		
-		try(Connection con = ds.getConnection();
-				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery(sql)){
-			
+		try(
+				
+			Connection con = ds.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+				
+				){
+			// 조회결과 정제...
 			if(rs.next()) {
-				String name = rs.getString(2);
-				String country = rs.getString(3);
-				String city = rs.getNString(1);
+				Employee employee = new Employee();
 				
-//				System.out.println(name);
-//				System.out.println(country);
+				String firstName = rs.getString("FirstName");
+				String lastName = rs.getString("LastName");
+				String birthDate = rs.getString("BirthDate");
 				
-				request.setAttribute("name", name);
-				request.setAttribute("country", country);
-				request.setAttribute("city", city);
-			}
-			
+				
+				employee.setFirstName(firstName);
+				employee.setLastName(lastName);
+				employee.setBirthDate(birthDate);
+				
+				
+				request.setAttribute("employee", employee);
+		}
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		String path = "/WEB-INF/view/chap14/ex02.jsp";
+		
+		String path = "/WEB-INF/view/chap14/ex04.jsp";
 		request.getRequestDispatcher(path).forward(request, response);
 		
 	}
