@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import com.apple.eawt.Application;
+
 /**
  * Servlet implementation class S14Servlet01
  */
@@ -36,13 +38,29 @@ public class S14Servlet01 extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		ServletContext application = getServletContext();
+		List<String> cities = new ArrayList<>();
 		
 		// database 에서 records 가져오기
-		List<String> cities = new ArrayList<>();
-		cities.add("Berlin");
-		cities.add("London");
-		cities.add("Madrid");
+		DataSource db = (DataSource)application.getAttribute("dbpool");
+		String sql = "SELECT city FROM Customers";
+		
+		try {
+			// 1. 연결 설정
+			Connection con = db.getConnection();
+			// 2. Stament 객체 생성
+			Statement stmt = con.createStatement();
+			// 3. 쿼리 실행 
+			ResultSet rs = stmt.executeQuery(sql);
+			
+		// 4. 실행결과 정제 
+		while(rs.next()) {
+			String city = rs.getString(1);
+			cities.add(city);
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
 		
 		// request에 records 넣기
 		request.setAttribute("cities", cities);
